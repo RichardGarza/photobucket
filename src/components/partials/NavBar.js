@@ -6,7 +6,7 @@ class Navbar extends Component {
       <div>
         <nav className="navbar bg-primary">
           <h1>
-            <i class=" m far fa-images" />
+            <i className=" m far fa-images" />
             {'  '}Photobucket
           </h1>
           <ul>
