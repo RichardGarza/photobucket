@@ -4,12 +4,13 @@ import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
 import Link from '@material-ui/core/Link';
-import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import LockIcon from '@material-ui/icons/LockOpen';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
+import Grid from '@material-ui/core/Grid';
 import Container from '@material-ui/core/Container';
+import axios from 'axios';
 
 function Copyright() {
   return (
@@ -27,8 +28,20 @@ function Copyright() {
 function submitForm(e) {
   return e => {
     e.preventDefault();
-    console.log(e.target.email.value);
-    console.log(e.target.password.value);
+    const email = e.target.email.value;
+    const password = e.target.password.value;
+
+    axios
+      .post('/signIn', {
+        email: email,
+        password: password,
+      })
+      .then(function (res) {
+        console.log(`Received back: ${res.data.test}`);
+      })
+      .catch(function (error) {
+        console.log('There was a problem', error);
+      });
   };
 }
 
@@ -62,9 +75,11 @@ export default function SignIn() {
         <Avatar className={classes.avatar}>
           <LockIcon />
         </Avatar>
+
         <Typography component="h1" variant="h5">
-          Sign in
+          Sign In
         </Typography>
+
         <form className={classes.form} noValidate onSubmit={submitForm()}>
           <TextField
             variant="outlined"
@@ -99,12 +114,12 @@ export default function SignIn() {
           </Button>
           <Grid container>
             <Grid item xs>
-              <Link href="#" variant="body2">
+              <Link href="/forgotPassword" variant="body2">
                 Forgot password?
               </Link>
             </Grid>
             <Grid item>
-              <Link href="#" variant="body2">
+              <Link href="/signUp" variant="body2">
                 {"Don't have an account? Sign Up"}
               </Link>
             </Grid>

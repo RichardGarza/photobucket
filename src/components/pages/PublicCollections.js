@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 class PublicCollections extends Component {
   render() {
-    return <div>Yo</div>;
+    return <div>Public Collections</div>;
   }
 }
 
