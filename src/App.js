@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
-import './App.css';
+
 import PublicCollections from './components/pages/PublicCollections';
 import SignIn from './components/partials/SignIn.js';
 import SignUp from './components/partials/SignUp.js';
