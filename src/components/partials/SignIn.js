@@ -24,6 +24,10 @@ function Copyright() {
     </Typography>
   );
 }
+function signOut() {
+  sessionStorage.removeItem('userId');
+  sessionStorage.removeItem('sessionId');
+}
 
 function submitForm(e) {
   return e => {
@@ -31,13 +35,32 @@ function submitForm(e) {
     const email = e.target.email.value;
     const password = e.target.password.value;
 
+    const userIdCookie = sessionStorage.getItem('userId');
+    const sessionIdCookie = sessionStorage.getItem('sessionId');
+
+    const userDetails = {
+      email,
+      password,
+      userIdCookie,
+      sessionIdCookie,
+    };
     axios
-      .post('/signIn', {
-        email,
-        password,
-      })
+      .post('/signIn', userDetails)
       .then(function (res) {
-        console.log(`Received back: ${res.data.status}`);
+        const { userId, status, sessionId } = res.data;
+        if (userId) {
+          sessionStorage.setItem('userId', userId);
+          sessionStorage.setItem('sessionId', sessionId);
+
+          console.log('Did It Work? ->', status);
+          // // remove
+          // localStorage.removeItem('myData');
+
+          // // remove all
+          // localStorage.clear();
+        } else {
+          console.log(`Received back: ${status}`);
+        }
       })
       .catch(function (error) {
         console.log('There was a problem', error);
@@ -81,7 +104,6 @@ export default function SignIn() {
         </Typography>
 
         <form className={classes.form} noValidate onSubmit={submitForm()}>
-          `
           <TextField
             variant="outlined"
             margin="normal"
@@ -124,6 +146,16 @@ export default function SignIn() {
               </Link>
             </Grid>
           </Grid>
+        </form>
+        <form className={classes.form} noValidate onSubmit={signOut()}>
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            color="primary"
+            className={classes.submit}>
+            Sign Out
+          </Button>
         </form>
       </div>
       <Box mt={8}>

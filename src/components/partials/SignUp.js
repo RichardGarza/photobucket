@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -41,7 +41,13 @@ function submitForm(e) {
         lastName,
       })
       .then(function (res) {
-        console.log(`Received back: ${res.data.status}`);
+        console.log('SignUp Started', res.data.user);
+        if (res.data.user) {
+          const { _id, sessionId } = res.data.user;
+          sessionStorage.setItem('userId', _id);
+          sessionStorage.setItem('sessionId', sessionId);
+        }
+        console.log(`Received status: ${res.data.status}`);
       })
       .catch(function (error) {
         console.log('There was a problem', error);
@@ -69,98 +75,108 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function SignUp() {
-  const classes = useStyles();
+class SignUp extends Component {
+  constructor() {
+    super();
 
-  return (
-    <Container component="main" maxWidth="xs">
-      <CssBaseline />
-      <div className={classes.paper}>
-        <Avatar className={classes.avatar}>
-          <LockIcon />
-        </Avatar>
+    this.state = {
+      test: 'test',
+    };
+  }
 
-        <Typography component="h1" variant="h5">
-          Sign Up
-        </Typography>
+  render() {
+    return (
+      <Container component="main" maxWidth="xs">
+        <CssBaseline />
+        <div className={useStyles.paper}>
+          <Avatar className={useStyles.avatar}>
+            <LockIcon />
+          </Avatar>
 
-        <form className={classes.form} noValidate onSubmit={submitForm()}>
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            id="firstName"
-            label="First Name"
-            name="firstName"
-            autoComplete="first-name"
-            autoFocus
-          />
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            id="lastName"
-            label="Last Name"
-            name="lastName"
-            autoComplete="last-name"
-            autoFocus
-          />
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            id="email"
-            label="Email Address"
-            name="email"
-            autoComplete="email"
-            autoFocus
-          />
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            name="password"
-            label="Password"
-            type="password"
-            id="password"
-            autoComplete="current-password"
-          />
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            name="passwordConf"
-            label="Confirm Password"
-            type="password"
-            id="passwordConf"
-            autoComplete="password-confirmation"
-          />
+          <Typography component="h1" variant="h5">
+            Sign Up {this.state.test}
+          </Typography>
 
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            color="primary"
-            className={classes.submit}>
-            Sign Up
-          </Button>
-          <Grid container>
-            <Grid item>
-              <Link href="/signIn" variant="body2">
-                {'Already have an account? Sign In'}
-              </Link>
+          <form className={useStyles.form} noValidate onSubmit={submitForm()}>
+            <TextField
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              id="firstName"
+              label="First Name"
+              name="firstName"
+              autoComplete="first-name"
+              autoFocus
+            />
+            <TextField
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              id="lastName"
+              label="Last Name"
+              name="lastName"
+              autoComplete="last-name"
+              autoFocus
+            />
+            <TextField
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              id="email"
+              label="Email Address"
+              name="email"
+              autoComplete="email"
+              autoFocus
+            />
+            <TextField
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              name="password"
+              label="Password"
+              type="password"
+              id="password"
+              autoComplete="current-password"
+            />
+            <TextField
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              name="passwordConf"
+              label="Confirm Password"
+              type="password"
+              id="passwordConf"
+              autoComplete="password-confirmation"
+            />
+
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              color="primary"
+              className={useStyles.submit}>
+              Sign Up
+            </Button>
+            <Grid container>
+              <Grid item>
+                <Link href="/signIn" variant="body2">
+                  {'Already have an account? Sign In'}
+                </Link>
+              </Grid>
             </Grid>
-          </Grid>
-        </form>
-      </div>
-      <Box mt={8}>
-        <Copyright />
-      </Box>
-    </Container>
-  );
+          </form>
+        </div>
+        <Box mt={8}>
+          <Copyright />
+        </Box>
+      </Container>
+    );
+  }
 }
+
+export default SignUp;
