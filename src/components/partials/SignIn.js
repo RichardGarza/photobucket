@@ -33,11 +33,11 @@ function submitForm(e) {
 
     axios
       .post('/signIn', {
-        email: email,
-        password: password,
+        email,
+        password,
       })
       .then(function (res) {
-        console.log(`Received back: ${res.data.test}`);
+        console.log(`Received back: ${res.data.status}`);
       })
       .catch(function (error) {
         console.log('There was a problem', error);
@@ -81,6 +81,7 @@ export default function SignIn() {
         </Typography>
 
         <form className={classes.form} noValidate onSubmit={submitForm()}>
+          `
           <TextField
             variant="outlined"
             margin="normal"
@@ -103,7 +104,6 @@ export default function SignIn() {
             id="password"
             autoComplete="current-password"
           />
-
           <Button
             type="submit"
             fullWidth

@@ -30,14 +30,18 @@ function submitForm(e) {
     e.preventDefault();
     const email = e.target.email.value;
     const password = e.target.password.value;
+    const firstName = e.target.firstName.value;
+    const lastName = e.target.lastName.value;
 
     axios
       .post('/signUp', {
-        email: email,
-        password: password,
+        email,
+        password,
+        firstName,
+        lastName,
       })
       .then(function (res) {
-        console.log(`Received back: ${res.data.test}`);
+        console.log(`Received back: ${res.data.status}`);
       })
       .catch(function (error) {
         console.log('There was a problem', error);
@@ -81,6 +85,28 @@ export default function SignUp() {
         </Typography>
 
         <form className={classes.form} noValidate onSubmit={submitForm()}>
+          <TextField
+            variant="outlined"
+            margin="normal"
+            required
+            fullWidth
+            id="firstName"
+            label="First Name"
+            name="firstName"
+            autoComplete="first-name"
+            autoFocus
+          />
+          <TextField
+            variant="outlined"
+            margin="normal"
+            required
+            fullWidth
+            id="lastName"
+            label="Last Name"
+            name="lastName"
+            autoComplete="last-name"
+            autoFocus
+          />
           <TextField
             variant="outlined"
             margin="normal"
